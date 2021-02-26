@@ -14,52 +14,76 @@ const caesarModule = (function () {
       } 
       // declare a variable for the result
       let result = "";
-      let negShift = -shift;
-      // make any input lower case
-      const inputWord = input.toLowerCase().split('');
-      // loop through the input word
-      for (character in inputWord) {
-          const letter = inputWord[character]; // this is the letter from the string untouched
-          const index = alphabet.indexOf(letter); // this is the index of the letter before shift
-          let newIndex;
-          // if encode is true then it needs to "encode"
-          if (encode) {
-              // if index plus shift is > 26
-              if (index + shift > 26 ) {
-                  newIndex = ((index + shift) - 26);
-              } else if (index + shift < 0) {
-                  newIndex = ((index + shift) + 26);
-              } else {
-                  newIndex = index + shift;
-              }
-          }
-          if (!encode) {
-            if (index - negShift < 0) {
-                console.log('negShift', negShift)
-                newIndex = ((index - negShift) + 26);
-                console.log("index", index)
-                console.log("newIndex", newIndex)
+
+      // declare a function for encode
+      const encodeString = function(input, shift, encode = true) {
+        const wordArray = input.toLowerCase().split('');
+        // loop through the input
+        wordArray.forEach(character => {
+            // if character is in alphabet
+            if (alphabet.includes(character)) {
+                const index = alphabet.indexOf(character);
+                let newIndex;
+                // if index plus shift is greater than 26
+                if (index + shift >= 26) {
+                    // set new index to index plus shift minus 26
+                    newIndex = ((index + shift) - 26);
+                // else if index plus shift is less than 0
+                } else if (index + shift < 0) {
+                    // set new index to index plus shift plus 26
+                    newIndex = ((index + shift) + 26);
+                // else set new index to index plus shift
+                } else {
+                    newIndex = index + shift;
+                }
+            // start processing the encoding
+            const encodedLetter = alphabet[newIndex]; // this the new letter based on the shift
+            result += encodedLetter;
+            // else add character to result
             } else {
-                newIndex = index - negShift;
-                console.log('negShift', negShift)
-                console.log("index", index)
-                console.log("newIndex", newIndex)
+                result += character;
             }
-          }
-          
-          
-          
-          const encodedLetter = alphabet[newIndex]; // this the new letter based on the shift
-          // if inputWord[character] is included in alphabet...
-          if (alphabet.includes(letter)) {
-              //...add the new letter to the result
-              result = result + encodedLetter
-              //console.log(result)
-          } else if (!alphabet.includes(letter)) {
-              result = result + letter;
-          }
+        });
+        return result;
       }
-      return result;
+
+      // declare a function for decode
+      const decodeString = function(input, shift, encode = false) {
+          const wordArray = input.toLowerCase().split('');
+          // loop through the input
+          wordArray.forEach(character => {
+            // if character is in alphabet
+            if (alphabet.includes(character)) {
+                const index = alphabet.indexOf(character);
+                let newIndex = index + shift;
+                // if new index is less than zero
+                if (newIndex < 0) {
+                    // add 26 to the new index
+                    newIndex += 26;
+                // if new index is greater than 26  
+                } else if (newIndex >= 26) {
+                    // subtract 26 from new index
+                    newIndex -= 26;
+                    console.log(newIndex)
+                }
+            // start processing the decoding
+            const decodedLetter = alphabet[newIndex];
+            result += decodedLetter;
+            // else add character to result
+            } else {
+                result += character;
+            }
+          });
+          return result;
+      }
+
+      // if encode is true 
+      if (encode) {
+          return encodeString(input, shift, encode = true);
+      // else run decodeString
+      } else {
+          return decodeString(input, shift, encode = false);
+      }
   }
   return {
     caesar,
