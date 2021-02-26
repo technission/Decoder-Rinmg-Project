@@ -15,7 +15,7 @@ describe("caesar", () => {
     });
   
   it("test3", () => {
-        const actual = caesar("wklqnixo", -3, encode = false); //> 'thinkful'
+        const actual = caesar("wklqnixo", 3, encode = false); //> 'thinkful'
         const expected =  'thinkful'
         expect(actual).to.eql(expected);
     });
@@ -27,7 +27,7 @@ describe("caesar", () => {
     });
   
   it("test5", () => {
-        const actual = caesar("BPQA qa I amkzmb umaaiom!", -8, encode = false); //> 'this is a secret message!'
+        const actual = caesar("BPQA qa I amkzmb umaaiom!", 8, encode = false); //> 'this is a secret message!'
         const expected =  'this is a secret message!'
         expect(actual).to.eql(expected);
     });
@@ -60,7 +60,7 @@ describe("caesar", () => {
     
     it("ignores capital letters", () => {
         const expected = "apple";
-        const actual = caesar("Dssoh", -3, encode = false);
+        const actual = caesar("Dssoh", 3, encode = false);
         expect(actual).to.eql(expected);
     });
     

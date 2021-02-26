@@ -49,6 +49,8 @@ const caesarModule = (function () {
 
       // declare a function for decode
       const decodeString = function(input, shift, encode = false) {
+          shift *= -1;
+          console.log(shift)
           const wordArray = input.toLowerCase().split('');
           // loop through the input
           wordArray.forEach(character => {
